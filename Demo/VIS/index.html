@@ -1,0 +1,1832 @@
+<html>
+<head>
+    <script type="text/javascript" src="./js/vis.min.js"></script>
+    <link href="./css/vis.min.css" rel="stylesheet" type="text/css" />
+ 
+    <style type="text/css">
+        body{
+            color: #ccc;
+            font-size: 12px;
+        }
+        .mygraph-box {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 40px;
+            z-index: 1000;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        .mygraph-box .arrows {
+            width: 90px;
+            height: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .mygraph-box img {
+            width: 60px;
+            height: 2px;
+            margin-top: 5px;
+        }
+        .vis-wrap {
+            width: 1000px;
+            height: 600px;
+            background-color:#111422;
+            
+        }
+
+        @font-face{
+            font-family:NextIcon;
+            src:url("./font/font_950461_ql3oh3oitic.eot");
+            src:url("./font/font_950461_ql3oh3oitic.eot?#iefix") format("embedded-opentype"),
+                url("./font/font_950461_ql3oh3oitic.woff") format("woff"),
+                url("./font/font_950461_ql3oh3oitic.ttf") format("truetype"),
+                url("./font/font_950461_ql3oh3oitic.svg#articonsvg") format("svg")
+            }
+
+                /* vis Control Nav */
+        div.vis-network div.vis-navigation div.vis-button {
+            width:34px;
+            height:34px;
+            border-radius: 50%;
+            position:absolute;
+            display:inline-block;
+            cursor: pointer;
+            user-select: none;
+            background-color: rgba(255,255,255,0.3);
+            font-family: NextIcon;
+        }
+        div.vis-network div.vis-navigation div.vis-button::before {
+            display: inline-block;
+            width: 34px;
+            font-size: 20px;
+            line-height: 34px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        div.vis-network div.vis-navigation div.vis-button:hover {
+            background-color: #0066CC;
+        }
+        div.vis-network div.vis-navigation div.vis-button.vis-up {
+            bottom:50px;
+            left:55px;
+        }
+        div.vis-network div.vis-navigation div.vis-button.vis-up::before {
+            content: "\E681";
+        }
+        div.vis-network div.vis-navigation div.vis-button.vis-down {
+            bottom:10px;
+            left:55px;
+        }
+        div.vis-network div.vis-navigation div.vis-button.vis-down::before {
+            content: "\E680";
+        }
+        div.vis-network div.vis-navigation div.vis-button.vis-left {
+            bottom:10px;
+            left:15px;
+        }
+        div.vis-network div.vis-navigation div.vis-button.vis-left::before {
+            content: "\E6A3";
+        }
+        div.vis-network div.vis-navigation div.vis-button.vis-right {
+            bottom:10px;
+            left:95px;
+        }
+        div.vis-network div.vis-navigation div.vis-button.vis-right::before {
+            content: "\E67E";
+        }
+        div.vis-network div.vis-navigation div.vis-button.vis-zoomIn {
+            bottom:10px;
+            right:15px;
+        }
+        div.vis-network div.vis-navigation div.vis-button.vis-zoomIn::before{
+            content: "\E682";
+        }
+        div.vis-network div.vis-navigation div.vis-button.vis-zoomOut {
+            bottom:10px;
+            right:55px;
+        }
+        div.vis-network div.vis-navigation div.vis-button.vis-zoomOut::before{
+            content: "\E683";
+        }
+        div.vis-network div.vis-navigation div.vis-button.vis-zoomExtends {
+            bottom:50px;
+            right:15px;
+        }
+        div.vis-network div.vis-navigation div.vis-button.vis-zoomExtends::before {
+            content: "\E635";
+        }
+
+    </style>
+</head>
+<body>
+        <div class="mygraph-box">
+            <div class="arrows">
+                <div>链路正常</div>
+                <img src="./img/green.png" />
+            </div>
+            <div class="arrows">
+                <div>链路未启用</div>
+                <img src="./img/gray.png" />
+            </div>
+            <div class="arrows">
+                <div>链路故障</div>
+                <img src="./img/red.png" />
+            </div>
+        </div>
+        <div id="mynetwork" class="vis-wrap"></div>
+ 
+<script type="text/javascript">
+    const VISdata = {
+    "nodes": [
+      {
+        "_type": "network",
+        "x": -750,
+        "y": 500,
+        "id": "ASW.10GE-5",
+        "label": "ASW.10GE-5",
+        "group": "ASW.10GE"
+      },
+      {
+        "_type": "network",
+        "x": 0,
+        "y": 500,
+        "id": "ASW.GE-1",
+        "label": "ASW.GE-1",
+        "group": "ASW"
+      },
+      {
+        "_type": "network",
+        "x": -1200,
+        "y": 400,
+        "id": "CSW-2",
+        "label": "CSW-2",
+        "group": "CSW"
+      },
+      {
+        "_type": "network",
+        "x": -900,
+        "y": 400,
+        "id": "CSW-1",
+        "label": "CSW-1",
+        "group": "CSW"
+      },
+      {
+        "_type": "network",
+        "x": -300,
+        "y": 500,
+        "id": "ASW.10GE-2",
+        "label": "ASW.10GE-2",
+        "group": "ASW.10GE"
+      },
+      {
+        "_type": "network",
+        "x": -900,
+        "y": 200,
+        "id": "LSW-1",
+        "label": "LSW-1",
+        "group": "LSW"
+      },
+      {
+        "_type": "network",
+        "x": -300,
+        "y": 0,
+        "id": "DSW-1",
+        "label": "DSW-1",
+        "group": "DSW"
+      },
+      {
+        "_type": "network",
+        "x": -1200,
+        "y": 200,
+        "id": "LSW-2",
+        "label": "LSW-2",
+        "group": "LSW"
+      },
+      {
+        "_type": "network",
+        "x": -900,
+        "y": 500,
+        "id": "ASW.10GE-6",
+        "label": "ASW.10GE-6",
+        "group": "ASW.10GE"
+      },
+      {
+        "_type": "network",
+        "x": -600,
+        "y": 0,
+        "id": "DSW-2",
+        "label": "DSW-2",
+        "group": "DSW"
+      },
+      {
+        "_type": "network",
+        "x": -150,
+        "y": 500,
+        "id": "ASW.10GE-1",
+        "label": "ASW.10GE-1",
+        "group": "ASW.10GE"
+      },
+      {
+        "_type": "network",
+        "x": -600,
+        "y": 500,
+        "id": "ASW.10GE-4",
+        "label": "ASW.10GE-4",
+        "group": "ASW.10GE"
+      },
+      {
+        "_type": "network",
+        "x": -450,
+        "y": 500,
+        "id": "ASW.10GE-3",
+        "label": "ASW.10GE-3",
+        "group": "ASW.10GE"
+      },
+      {
+        "_type": "network",
+        "x": -300,
+        "y": -200,
+        "id": "ISW-1",
+        "label": "ISW-1",
+        "group": "ISW"
+      },
+      {
+        "_type": "network",
+        "x": -1050,
+        "y": 500,
+        "id": "ASW.10GE-7",
+        "label": "ASW.10GE-7",
+        "group": "ASW.10GE"
+      },
+      {
+        "_type": "network",
+        "x": -600,
+        "y": -200,
+        "id": "ISW-2",
+        "label": "ISW-2",
+        "group": "ISW"
+      }
+    ],
+    "edges": [
+      {
+        "startport": "FortyGigE1/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-5",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE0/0/13"
+      },
+      {
+        "startport": "FortyGigE2/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-5",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE0/0/14"
+      },
+      {
+        "startport": "FortyGigE1/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-5",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE1/0/13"
+      },
+      {
+        "startport": "FortyGigE2/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-5",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE1/0/14"
+      },
+      {
+        "startport": "FortyGigE1/0/51",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-5",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE0/0/13"
+      },
+      {
+        "startport": "FortyGigE2/0/51",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-5",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE0/0/14"
+      },
+      {
+        "startport": "FortyGigE1/0/52",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-5",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE1/0/13"
+      },
+      {
+        "startport": "FortyGigE2/0/52",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-5",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE1/0/14"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.GE-1",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "Ten-GigabitEthernet0/0/1:1"
+      },
+      {
+        "startport": "Ten-GigabitEthernet2/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.GE-1",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "Ten-GigabitEthernet0/0/1:2"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.GE-1",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "Ten-GigabitEthernet0/0/1:3"
+      },
+      {
+        "startport": "Ten-GigabitEthernet2/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.GE-1",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "Ten-GigabitEthernet0/0/1:4"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/0/51",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.GE-1",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "Ten-GigabitEthernet0/0/1:1"
+      },
+      {
+        "startport": "Ten-GigabitEthernet2/0/51",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.GE-1",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "Ten-GigabitEthernet0/0/1:2"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/0/52",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.GE-1",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "Ten-GigabitEthernet0/0/1:3"
+      },
+      {
+        "startport": "Ten-GigabitEthernet2/0/52",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.GE-1",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "Ten-GigabitEthernet0/0/1:4"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/1/13",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "CSW-2",
+        "label": "",
+        "to": "LSW-1",
+        "endport": "Ten-GigabitEthernet1/0/29"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/1/14",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "CSW-2",
+        "label": "",
+        "to": "LSW-1",
+        "endport": "Ten-GigabitEthernet1/0/30"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/1/15",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "CSW-2",
+        "label": "",
+        "to": "LSW-2",
+        "endport": "Ten-GigabitEthernet1/0/29"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/1/16",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "CSW-2",
+        "label": "",
+        "to": "LSW-2",
+        "endport": "Ten-GigabitEthernet1/0/30"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/2/13",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "CSW-2",
+        "label": "",
+        "to": "LSW-1",
+        "endport": "Ten-GigabitEthernet1/0/31"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/2/14",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "CSW-2",
+        "label": "",
+        "to": "LSW-1",
+        "endport": "Ten-GigabitEthernet1/0/32"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/2/15",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "CSW-2",
+        "label": "",
+        "to": "LSW-2",
+        "endport": "Ten-GigabitEthernet1/0/31"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/2/16",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "CSW-2",
+        "label": "",
+        "to": "LSW-2",
+        "endport": "Ten-GigabitEthernet1/0/32"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/1/13",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "CSW-1",
+        "label": "",
+        "to": "LSW-1",
+        "endport": "Ten-GigabitEthernet1/0/13"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/1/14",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "CSW-1",
+        "label": "",
+        "to": "LSW-1",
+        "endport": "Ten-GigabitEthernet1/0/14"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/1/15",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "CSW-1",
+        "label": "",
+        "to": "LSW-2",
+        "endport": "Ten-GigabitEthernet1/0/13"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/1/16",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "CSW-1",
+        "label": "",
+        "to": "LSW-2",
+        "endport": "Ten-GigabitEthernet1/0/14"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/2/13",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "CSW-1",
+        "label": "",
+        "to": "LSW-1",
+        "endport": "Ten-GigabitEthernet1/0/15"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/2/14",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "CSW-1",
+        "label": "",
+        "to": "LSW-1",
+        "endport": "Ten-GigabitEthernet1/0/16"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/2/15",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "CSW-1",
+        "label": "",
+        "to": "LSW-2",
+        "endport": "Ten-GigabitEthernet1/0/15"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/2/16",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "CSW-1",
+        "label": "",
+        "to": "LSW-2",
+        "endport": "Ten-GigabitEthernet1/0/16"
+      },
+      {
+        "startport": "FortyGigE1/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-2",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE0/0/7"
+      },
+      {
+        "startport": "FortyGigE2/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-2",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE0/0/8"
+      },
+      {
+        "startport": "FortyGigE1/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-2",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE1/0/7"
+      },
+      {
+        "startport": "FortyGigE2/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-2",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE1/0/8"
+      },
+      {
+        "startport": "FortyGigE1/0/51",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-2",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE0/0/7"
+      },
+      {
+        "startport": "FortyGigE2/0/51",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-2",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE0/0/8"
+      },
+      {
+        "startport": "FortyGigE1/0/52",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-2",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE1/0/7"
+      },
+      {
+        "startport": "FortyGigE2/0/52",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-2",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE1/0/8"
+      },
+      {
+        "startport": "FortyGigE1/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "LSW-1",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE0/0/3"
+      },
+      {
+        "startport": "FortyGigE1/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "LSW-1",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE1/0/3"
+      },
+      {
+        "startport": "FortyGigE1/0/51",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "LSW-1",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE0/0/3"
+      },
+      {
+        "startport": "FortyGigE1/0/52",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "LSW-1",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE1/0/3"
+      },
+      {
+        "startport": "FortyGigE1/0/53",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "LSW-1",
+        "label": "",
+        "to": "LSW-2",
+        "endport": "FortyGigE1/0/53"
+      },
+      {
+        "startport": "FortyGigE1/0/54",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "LSW-1",
+        "label": "",
+        "to": "LSW-2",
+        "endport": "FortyGigE1/0/54"
+      },
+      {
+        "startport": "Ten-GigabitEthernet0/0/2:1",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "DSW-1",
+        "label": "",
+        "to": "ISW-1",
+        "endport": "Ten-GigabitEthernet1/0/1"
+      },
+      {
+        "startport": "Ten-GigabitEthernet0/0/2:2",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "DSW-1",
+        "label": "",
+        "to": "ISW-1",
+        "endport": "Ten-GigabitEthernet1/0/2"
+      },
+      {
+        "startport": "Ten-GigabitEthernet0/0/2:3",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "DSW-1",
+        "label": "",
+        "to": "ISW-1",
+        "endport": "Ten-GigabitEthernet1/0/3"
+      },
+      {
+        "startport": "Ten-GigabitEthernet0/0/2:4",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "DSW-1",
+        "label": "",
+        "to": "ISW-1",
+        "endport": "Ten-GigabitEthernet1/0/4"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/0/2:1",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "DSW-1",
+        "label": "",
+        "to": "ISW-2",
+        "endport": "Ten-GigabitEthernet1/0/1"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/0/2:2",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "DSW-1",
+        "label": "",
+        "to": "ISW-2",
+        "endport": "Ten-GigabitEthernet1/0/2"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/0/2:3",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "DSW-1",
+        "label": "",
+        "to": "ISW-2",
+        "endport": "Ten-GigabitEthernet1/0/3"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/0/2:4",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "DSW-1",
+        "label": "",
+        "to": "ISW-2",
+        "endport": "Ten-GigabitEthernet1/0/4"
+      },
+      {
+        "startport": "FortyGigE1/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "LSW-2",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE0/0/4"
+      },
+      {
+        "startport": "FortyGigE1/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "LSW-2",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE1/0/4"
+      },
+      {
+        "startport": "FortyGigE1/0/51",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "LSW-2",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE0/0/4"
+      },
+      {
+        "startport": "FortyGigE1/0/52",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "LSW-2",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE1/0/4"
+      },
+      {
+        "startport": "FortyGigE1/0/53",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "LSW-2",
+        "label": "",
+        "to": "LSW-1",
+        "endport": "FortyGigE1/0/53"
+      },
+      {
+        "startport": "FortyGigE1/0/54",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "LSW-2",
+        "label": "",
+        "to": "LSW-1",
+        "endport": "FortyGigE1/0/54"
+      },
+      {
+        "startport": "FortyGigE1/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-6",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE0/0/15"
+      },
+      {
+        "startport": "FortyGigE2/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-6",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE0/0/16"
+      },
+      {
+        "startport": "FortyGigE1/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-6",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE1/0/15"
+      },
+      {
+        "startport": "FortyGigE2/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-6",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE1/0/16"
+      },
+      {
+        "startport": "FortyGigE1/0/51",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-6",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE0/0/15"
+      },
+      {
+        "startport": "FortyGigE2/0/51",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-6",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE0/0/16"
+      },
+      {
+        "startport": "FortyGigE1/0/52",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-6",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE1/0/15"
+      },
+      {
+        "startport": "FortyGigE2/0/52",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-6",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE1/0/16"
+      },
+      {
+        "startport": "Ten-GigabitEthernet0/0/2:1",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "DSW-2",
+        "label": "",
+        "to": "ISW-1",
+        "endport": "Ten-GigabitEthernet1/0/5"
+      },
+      {
+        "startport": "Ten-GigabitEthernet0/0/2:2",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "DSW-2",
+        "label": "",
+        "to": "ISW-1",
+        "endport": "Ten-GigabitEthernet1/0/6"
+      },
+      {
+        "startport": "Ten-GigabitEthernet0/0/2:3",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "DSW-2",
+        "label": "",
+        "to": "ISW-1",
+        "endport": "Ten-GigabitEthernet1/0/7"
+      },
+      {
+        "startport": "Ten-GigabitEthernet0/0/2:4",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "DSW-2",
+        "label": "",
+        "to": "ISW-1",
+        "endport": "Ten-GigabitEthernet1/0/8"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/0/2:1",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "DSW-2",
+        "label": "",
+        "to": "ISW-2",
+        "endport": "Ten-GigabitEthernet1/0/5"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/0/2:2",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "DSW-2",
+        "label": "",
+        "to": "ISW-2",
+        "endport": "Ten-GigabitEthernet1/0/6"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/0/2:3",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "DSW-2",
+        "label": "",
+        "to": "ISW-2",
+        "endport": "Ten-GigabitEthernet1/0/7"
+      },
+      {
+        "startport": "Ten-GigabitEthernet1/0/2:4",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "DSW-2",
+        "label": "",
+        "to": "ISW-2",
+        "endport": "Ten-GigabitEthernet1/0/8"
+      },
+      {
+        "startport": "FortyGigE1/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-1",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE0/0/5"
+      },
+      {
+        "startport": "FortyGigE2/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-1",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE0/0/6"
+      },
+      {
+        "startport": "FortyGigE1/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-1",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE1/0/5"
+      },
+      {
+        "startport": "FortyGigE2/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-1",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE1/0/6"
+      },
+      {
+        "startport": "FortyGigE1/0/51",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-1",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE0/0/5"
+      },
+      {
+        "startport": "FortyGigE2/0/51",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-1",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE0/0/6"
+      },
+      {
+        "startport": "FortyGigE1/0/52",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-1",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE1/0/5"
+      },
+      {
+        "startport": "FortyGigE2/0/52",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-1",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE1/0/6"
+      },
+      {
+        "startport": "FortyGigE1/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-4",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE0/0/11"
+      },
+      {
+        "startport": "FortyGigE2/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-4",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE0/0/12"
+      },
+      {
+        "startport": "FortyGigE1/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-4",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE1/0/11"
+      },
+      {
+        "startport": "FortyGigE2/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-4",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE1/0/12"
+      },
+      {
+        "startport": "FortyGigE1/0/51",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-4",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE0/0/11"
+      },
+      {
+        "startport": "FortyGigE2/0/51",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-4",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE0/0/12"
+      },
+      {
+        "startport": "FortyGigE1/0/52",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-4",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE1/0/11"
+      },
+      {
+        "startport": "FortyGigE2/0/52",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-4",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE1/0/12"
+      },
+      {
+        "startport": "FortyGigE1/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-3",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE0/0/9"
+      },
+      {
+        "startport": "FortyGigE2/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-3",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE0/0/10"
+      },
+      {
+        "startport": "FortyGigE1/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-3",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE1/0/9"
+      },
+      {
+        "startport": "FortyGigE2/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-3",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE1/0/10"
+      },
+      {
+        "startport": "FortyGigE1/0/51",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-3",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE0/0/9"
+      },
+      {
+        "startport": "FortyGigE2/0/51",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-3",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE0/0/10"
+      },
+      {
+        "startport": "FortyGigE1/0/52",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-3",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE1/0/9"
+      },
+      {
+        "startport": "FortyGigE2/0/52",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-3",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE1/0/10"
+      },
+      {
+        "startport": "FortyGigE1/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ISW-1",
+        "label": "",
+        "to": "ISW-2",
+        "endport": "FortyGigE1/0/49"
+      },
+      {
+        "startport": "FortyGigE1/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ISW-1",
+        "label": "",
+        "to": "ISW-2",
+        "endport": "FortyGigE1/0/50"
+      },
+      {
+        "startport": "FortyGigE1/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-7",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE0/0/17"
+      },
+      {
+        "startport": "FortyGigE2/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-7",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE0/0/18"
+      },
+      {
+        "startport": "FortyGigE1/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-7",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE1/0/17"
+      },
+      {
+        "startport": "FortyGigE2/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-7",
+        "label": "",
+        "to": "DSW-1",
+        "endport": "HundredGigE1/0/18"
+      },
+      {
+        "startport": "FortyGigE1/0/51",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-7",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE0/0/17"
+      },
+      {
+        "startport": "FortyGigE2/0/51",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-7",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE0/0/18"
+      },
+      {
+        "startport": "FortyGigE1/0/52",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-7",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE1/0/17"
+      },
+      {
+        "startport": "FortyGigE2/0/52",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ASW.10GE-7",
+        "label": "",
+        "to": "DSW-2",
+        "endport": "HundredGigE1/0/18"
+      },
+      {
+        "startport": "FortyGigE1/0/49",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ISW-2",
+        "label": "",
+        "to": "ISW-1",
+        "endport": "FortyGigE1/0/49"
+      },
+      {
+        "startport": "FortyGigE1/0/50",
+        "color": {
+          "color": "#61d836"
+        },
+        "_type": "network",
+        "arrows": "to",
+        "width": "3",
+        "from": "ISW-2",
+        "label": "",
+        "to": "ISW-1",
+        "endport": "FortyGigE1/0/50"
+      }
+    ],
+    "groups": {
+      "ASW.10GE": {
+        "image": "./img/ASW.10GE.png",
+        "shape": "image"
+      },
+      "LSW": {
+        "image": "./img/LSW.png",
+        "shape": "image"
+      },
+      "ASW": {
+        "image": "./img/ASW.png",
+        "shape": "image"
+      },
+      "CSW": {
+        "image": "./img/CSW.png",
+        "shape": "image"
+      },
+      "DSW": {
+        "image": "./img/DSW.png",
+        "shape": "image"
+      },
+      "ISW": {
+        "image": "./img/ISW.png",
+        "shape": "image"
+      }
+    },
+    "firstNode": "ASW.10GE-5",
+    "productName": "network"
+  }
+    
+ 
+    // create a network
+    var container = document.getElementById('mynetwork');
+ 
+    const options = {
+                layout: {
+                    randomSeed: 1,
+                },
+                height: '100%',
+                physics: {
+                    enabled: false,
+                },
+                nodes: {
+                    size: 80,
+                    font: {
+                        size: 22,
+                        color: '#999',
+                    },
+                    borderWidth: 1,
+                    // fixed: true,
+                },
+                edges: {
+                    arrows: {
+                        to: { enabled: false, scaleFactor: 0 }, // 箭头大小
+                        middle: { enabled: false, scaleFactor: 0 },
+                        from: { enabled: false, scaleFactor: 0 },
+                    },
+                    chosen: {
+                        edge(values, id, selected, hovering) {
+                            values.color = 'blue'
+                        },
+
+                    },
+                    color: {
+                        // color: "gray",
+                        highlight: 'blue',
+                    },
+                    font: {
+                        size: 20,
+                        // color: 'yellow',
+                        align: 'top',
+                    },
+                },
+                interaction: {
+                    dragNodes: true,
+                    dragView: true, // 可拖动
+                    zoomView: true,
+                    selectConnectedEdges: true,
+                    navigationButtons: true, // 控制导航
+                    keyboard: true, // 快捷键控制导航
+                },
+                groups: VISdata.groups,
+            }
+ 
+    // initialize your network!
+    var network = new vis.Network(container, VISdata, options);
+    network.on('selectNode', (obj) => {
+                const node = obj.nodes[0]
+                console.log('selectNode',node)
+            })
+    network.on('doubleClick', (obj) => {
+                const node = obj.nodes[0]
+                console.log('doubleClick',node)
+    })
+</script>
+</body>
+</html>
+

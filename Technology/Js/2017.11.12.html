@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>js当中CommonJS 和es6的模块化引入方案以及比较 | JackTesla 的博客</title>
+    <meta name="description" content="最精彩的，其实就是世界本身！">
+    <link rel="icon" href="/favicon.ico">
+    
+    <link rel="preload" href="/assets/css/0.styles.a1d6fa2d.css" as="style"><link rel="preload" href="/assets/js/app.9a76328c.js" as="script"><link rel="preload" href="/assets/js/156.671756b8.js" as="script"><link rel="preload" href="/assets/js/3.918aa0d3.js" as="script"><link rel="prefetch" href="/assets/js/10.4bdf9ec9.js"><link rel="prefetch" href="/assets/js/100.8d4e514d.js"><link rel="prefetch" href="/assets/js/101.f480bdab.js"><link rel="prefetch" href="/assets/js/102.471018fa.js"><link rel="prefetch" href="/assets/js/103.5d7ae542.js"><link rel="prefetch" href="/assets/js/104.f1658ef5.js"><link rel="prefetch" href="/assets/js/105.8d432c49.js"><link rel="prefetch" href="/assets/js/106.dccc8950.js"><link rel="prefetch" href="/assets/js/107.dc396c8f.js"><link rel="prefetch" href="/assets/js/108.81d5c200.js"><link rel="prefetch" href="/assets/js/109.bc9fbd9f.js"><link rel="prefetch" href="/assets/js/11.48bc975a.js"><link rel="prefetch" href="/assets/js/110.94814176.js"><link rel="prefetch" href="/assets/js/111.817d1944.js"><link rel="prefetch" href="/assets/js/112.fa870633.js"><link rel="prefetch" href="/assets/js/113.0c4e0de6.js"><link rel="prefetch" href="/assets/js/114.1119f16b.js"><link rel="prefetch" href="/assets/js/115.ee211a10.js"><link rel="prefetch" href="/assets/js/116.1d88a276.js"><link rel="prefetch" href="/assets/js/117.9e811962.js"><link rel="prefetch" href="/assets/js/118.294c123d.js"><link rel="prefetch" href="/assets/js/119.7b777168.js"><link rel="prefetch" href="/assets/js/12.e0a71e0f.js"><link rel="prefetch" href="/assets/js/120.2d7f9f02.js"><link rel="prefetch" href="/assets/js/121.80f2ba73.js"><link rel="prefetch" href="/assets/js/122.91cd1105.js"><link rel="prefetch" href="/assets/js/123.a98934ae.js"><link rel="prefetch" href="/assets/js/124.94060da7.js"><link rel="prefetch" href="/assets/js/125.074d2c4e.js"><link rel="prefetch" href="/assets/js/126.d509d55e.js"><link rel="prefetch" href="/assets/js/127.bdc4023e.js"><link rel="prefetch" href="/assets/js/128.93d248a3.js"><link rel="prefetch" href="/assets/js/129.bd922743.js"><link rel="prefetch" href="/assets/js/13.4089d8be.js"><link rel="prefetch" href="/assets/js/130.ce2136ae.js"><link rel="prefetch" href="/assets/js/131.fcb39db7.js"><link rel="prefetch" href="/assets/js/132.81c15de6.js"><link rel="prefetch" href="/assets/js/133.80475baa.js"><link rel="prefetch" href="/assets/js/134.23fad4f8.js"><link rel="prefetch" href="/assets/js/135.25b56a04.js"><link rel="prefetch" href="/assets/js/136.4878fe3e.js"><link rel="prefetch" href="/assets/js/137.e0bff16d.js"><link rel="prefetch" href="/assets/js/138.39e495a0.js"><link rel="prefetch" href="/assets/js/139.30e15e4a.js"><link rel="prefetch" href="/assets/js/14.5b18446f.js"><link rel="prefetch" href="/assets/js/140.95f0e06f.js"><link rel="prefetch" href="/assets/js/141.0b37968f.js"><link rel="prefetch" href="/assets/js/142.14eae5c1.js"><link rel="prefetch" href="/assets/js/143.42752684.js"><link rel="prefetch" href="/assets/js/144.a8b96320.js"><link rel="prefetch" href="/assets/js/145.7b09e463.js"><link rel="prefetch" href="/assets/js/146.91baace9.js"><link rel="prefetch" href="/assets/js/147.8f707cf9.js"><link rel="prefetch" href="/assets/js/148.ed858fca.js"><link rel="prefetch" href="/assets/js/149.2a5f8cf3.js"><link rel="prefetch" href="/assets/js/15.7c4159a3.js"><link rel="prefetch" href="/assets/js/150.92d9c14d.js"><link rel="prefetch" href="/assets/js/151.c33ad1d4.js"><link rel="prefetch" href="/assets/js/152.f1ffcd4c.js"><link rel="prefetch" href="/assets/js/153.65a41818.js"><link rel="prefetch" href="/assets/js/154.bfd70883.js"><link rel="prefetch" href="/assets/js/155.d24ca257.js"><link rel="prefetch" href="/assets/js/157.cc791fbb.js"><link rel="prefetch" href="/assets/js/158.8e796099.js"><link rel="prefetch" href="/assets/js/159.3678b13f.js"><link rel="prefetch" href="/assets/js/16.2b024328.js"><link rel="prefetch" href="/assets/js/160.702e0b5b.js"><link rel="prefetch" href="/assets/js/161.959cd726.js"><link rel="prefetch" href="/assets/js/162.8fb4be1d.js"><link rel="prefetch" href="/assets/js/163.1f36c9c5.js"><link rel="prefetch" href="/assets/js/164.754181c2.js"><link rel="prefetch" href="/assets/js/165.9dbd1105.js"><link rel="prefetch" href="/assets/js/166.6fe6ff7b.js"><link rel="prefetch" href="/assets/js/167.bc80ffc1.js"><link rel="prefetch" href="/assets/js/168.c080935c.js"><link rel="prefetch" href="/assets/js/17.66e60b75.js"><link rel="prefetch" href="/assets/js/18.7a726fe3.js"><link rel="prefetch" href="/assets/js/19.1a4db630.js"><link rel="prefetch" href="/assets/js/2.5d0f9c3d.js"><link rel="prefetch" href="/assets/js/20.2d673dcf.js"><link rel="prefetch" href="/assets/js/21.fd685e4a.js"><link rel="prefetch" href="/assets/js/22.574b59be.js"><link rel="prefetch" href="/assets/js/23.9de08e72.js"><link rel="prefetch" href="/assets/js/24.89246fa2.js"><link rel="prefetch" href="/assets/js/25.13008cb2.js"><link rel="prefetch" href="/assets/js/26.68b54550.js"><link rel="prefetch" href="/assets/js/27.ef768b46.js"><link rel="prefetch" href="/assets/js/28.30db73cf.js"><link rel="prefetch" href="/assets/js/29.b83a0cc8.js"><link rel="prefetch" href="/assets/js/30.50ba36e8.js"><link rel="prefetch" href="/assets/js/31.33bbe2a8.js"><link rel="prefetch" href="/assets/js/32.67c6485b.js"><link rel="prefetch" href="/assets/js/33.b58884f8.js"><link rel="prefetch" href="/assets/js/34.4ca1ef58.js"><link rel="prefetch" href="/assets/js/35.28ff3185.js"><link rel="prefetch" href="/assets/js/36.b5497e0e.js"><link rel="prefetch" href="/assets/js/37.d4b003fa.js"><link rel="prefetch" href="/assets/js/38.da6e75b6.js"><link rel="prefetch" href="/assets/js/39.c1fe6be8.js"><link rel="prefetch" href="/assets/js/4.9c34c67d.js"><link rel="prefetch" href="/assets/js/40.eaaf9782.js"><link rel="prefetch" href="/assets/js/41.4ba752d1.js"><link rel="prefetch" href="/assets/js/42.9ced1b55.js"><link rel="prefetch" href="/assets/js/43.bb55cc28.js"><link rel="prefetch" href="/assets/js/44.a0c7a1a9.js"><link rel="prefetch" href="/assets/js/45.d13df04e.js"><link rel="prefetch" href="/assets/js/46.b1a5348c.js"><link rel="prefetch" href="/assets/js/47.f6daae0f.js"><link rel="prefetch" href="/assets/js/48.831d4337.js"><link rel="prefetch" href="/assets/js/49.870df3c4.js"><link rel="prefetch" href="/assets/js/5.f0ca6871.js"><link rel="prefetch" href="/assets/js/50.bb2bdf41.js"><link rel="prefetch" href="/assets/js/51.9b1ee4e3.js"><link rel="prefetch" href="/assets/js/52.8eb61641.js"><link rel="prefetch" href="/assets/js/53.aba6ddfc.js"><link rel="prefetch" href="/assets/js/54.5183156e.js"><link rel="prefetch" href="/assets/js/55.21b59e40.js"><link rel="prefetch" href="/assets/js/56.1f8b4e8d.js"><link rel="prefetch" href="/assets/js/57.90f3657d.js"><link rel="prefetch" href="/assets/js/58.5baf2fa8.js"><link rel="prefetch" href="/assets/js/59.0b8af2a1.js"><link rel="prefetch" href="/assets/js/6.6d794528.js"><link rel="prefetch" href="/assets/js/60.2b717002.js"><link rel="prefetch" href="/assets/js/61.39bb5784.js"><link rel="prefetch" href="/assets/js/62.d79a8a69.js"><link rel="prefetch" href="/assets/js/63.c17a278d.js"><link rel="prefetch" href="/assets/js/64.3e5fbb7f.js"><link rel="prefetch" href="/assets/js/65.5bb26dfc.js"><link rel="prefetch" href="/assets/js/66.7d646da2.js"><link rel="prefetch" href="/assets/js/67.99f6b8d5.js"><link rel="prefetch" href="/assets/js/68.0b166342.js"><link rel="prefetch" href="/assets/js/69.a068b451.js"><link rel="prefetch" href="/assets/js/7.ae2f4526.js"><link rel="prefetch" href="/assets/js/70.789abe33.js"><link rel="prefetch" href="/assets/js/71.2a5e3390.js"><link rel="prefetch" href="/assets/js/72.b65c3d1c.js"><link rel="prefetch" href="/assets/js/73.54b96a19.js"><link rel="prefetch" href="/assets/js/74.04aa7593.js"><link rel="prefetch" href="/assets/js/75.6db8ea91.js"><link rel="prefetch" href="/assets/js/76.150b0e33.js"><link rel="prefetch" href="/assets/js/77.49664c99.js"><link rel="prefetch" href="/assets/js/78.8b336e3a.js"><link rel="prefetch" href="/assets/js/79.de6a69ab.js"><link rel="prefetch" href="/assets/js/8.0cd81efc.js"><link rel="prefetch" href="/assets/js/80.7440220b.js"><link rel="prefetch" href="/assets/js/81.7e752265.js"><link rel="prefetch" href="/assets/js/82.330113c4.js"><link rel="prefetch" href="/assets/js/83.abfa3cb0.js"><link rel="prefetch" href="/assets/js/84.e940c358.js"><link rel="prefetch" href="/assets/js/85.0d48fbcd.js"><link rel="prefetch" href="/assets/js/86.4de558aa.js"><link rel="prefetch" href="/assets/js/87.238fa2e0.js"><link rel="prefetch" href="/assets/js/88.4d21819e.js"><link rel="prefetch" href="/assets/js/89.6b15b172.js"><link rel="prefetch" href="/assets/js/9.e116c6cc.js"><link rel="prefetch" href="/assets/js/90.8329f061.js"><link rel="prefetch" href="/assets/js/91.9c09396a.js"><link rel="prefetch" href="/assets/js/92.d3bb5bbc.js"><link rel="prefetch" href="/assets/js/93.0c5dfc5f.js"><link rel="prefetch" href="/assets/js/94.5dbef43e.js"><link rel="prefetch" href="/assets/js/95.4f1308aa.js"><link rel="prefetch" href="/assets/js/96.e5b28708.js"><link rel="prefetch" href="/assets/js/97.37344798.js"><link rel="prefetch" href="/assets/js/98.dbdf8d75.js"><link rel="prefetch" href="/assets/js/99.fa2dfdd8.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.a1d6fa2d.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">JackTesla 的博客</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/Technology/Stack/2019.3.1.html" class="nav-link">技术篇</a></div><div class="nav-item"><a href="/Report/2019.2.22.html" class="nav-link">每日早报</a></div><div class="nav-item"><a href="/Readme/index.html" class="nav-link">关于作者</a></div> <a href="https://github.com/18518300669" target="_blank" rel="noopener noreferrer" class="repo-link">
+    gitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/Technology/Stack/2019.3.1.html" class="nav-link">技术篇</a></div><div class="nav-item"><a href="/Report/2019.2.22.html" class="nav-link">每日早报</a></div><div class="nav-item"><a href="/Readme/index.html" class="nav-link">关于作者</a></div> <a href="https://github.com/18518300669" target="_blank" rel="noopener noreferrer" class="repo-link">
+    gitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><div class="sidebar-group first collapsable"><p class="sidebar-heading open"><span>技术篇</span> <span class="arrow down"></span></p> <ul class="sidebar-group-items"><li><a href="/Technology/Stack/2019.3.1.html" class="sidebar-link">JAMstack开发架构</a></li><li><a href="/Technology/Stack/2019.1.2.html" class="sidebar-link">使用基于Vue.js驱动的Vuepress搭建静态博客</a></li><li><a href="/Technology/Webpack/2018.10.12.html" class="sidebar-link">使用webpack打包的项目优化方案</a></li><li><a href="/Technology/Js/2019.2.21.html" class="sidebar-link">一个好玩的东西，纯JS代码实现增强现实（AR）</a></li><li><a href="/Technology/Js/2018.8.6.html" class="sidebar-link">使用vis.js的Network组件画网络拓扑图</a></li><li><a href="/Technology/React/2018.6.10.html" class="sidebar-link">react-router的3种路由按需加载介绍</a></li><li><a href="/Technology/Js/2017.11.12.html" class="active sidebar-link">js当中CommonJS 和es6的模块化引入方案以及比较</a><ul class="sidebar-sub-headers"></ul></li><li><a href="/Technology/Js/2017.10.08.html" class="sidebar-link">js当中require.ensure()和import()的使用介绍及对比</a></li><li><a href="/Technology/React/2017.06.24.html" class="sidebar-link">关于react项目当中propTypes应该在生产环境中去掉的做法</a></li><li><a href="/Technology/Css/2018.01.26.html" class="sidebar-link">两行 CSS 代码实现图片任意颜色赋色技术</a></li><li><a href="/Technology/Js/2018.01.25.html" class="sidebar-link">初学者可以用的js小技巧</a></li><li><a href="/Technology/Css/2017.6.10.html" class="sidebar-link">3种chrome谷歌浏览器表单自动填充时默认的黄色背景样式修改-autofill</a></li></ul></div></li></ul> </div> <div class="page"> <div class="content"><h1 id="js当中commonjs-和es6的模块化引入方案以及比较"><a href="#js当中commonjs-和es6的模块化引入方案以及比较" aria-hidden="true" class="header-anchor">#</a> js当中CommonJS 和es6的模块化引入方案以及比较</h1> <p>在es6之前，对于模块化方案主要是CommonJS和AMD两种。咱们这次说一下ES6和CommonJS的区别。</p> <p><font color="red"> 它们有两个重大差异：</font></p> <ol><li>CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。</li> <li>CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。</li></ol> <hr> <h3 id="第一个差异："><a href="#第一个差异：" aria-hidden="true" class="header-anchor">#</a> 第一个差异：</h3> <p>CommonJS 模块输出的是值的拷贝，也就是说，一旦输出一个值，模块内部的变化就影响不到这个值。请看下面这个模块文件lib.js的例子。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    // lib.js
+    var counter = 3;
+    function incCounter() {
+      counter++;
+    }
+    module.exports = {
+      counter: counter,
+      incCounter: incCounter,
+    };
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>上面代码输出内部变量counter和改写这个变量的内部方法incCounter。然后，在main.js里面加载这个模块。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    // main.js
+    var mod = require('./lib');
+    console.log(mod.counter);  // 3
+    mod.incCounter();
+    console.log(mod.counter); // 3
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br></div></div><p>上面代码说明，lib.js模块加载以后，它的内部变化就影响不到输出的mod.counter了。这是因为mod.counter是一个原始类型的值，会被缓存。除非写成一个函数，才能得到内部变动后的值。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    // lib.js
+    var counter = 3;
+    function incCounter() {
+      counter++;
+    }
+    module.exports = {
+      get counter() {
+        return counter
+      },
+      incCounter: incCounter,
+    };
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br></div></div><p>上面代码中，输出的counter属性实际上是一个取值器函数。现在再执行main.js，就可以正确读取内部变量counter的变动了。</p> <p>ES6 模块的运行机制与 CommonJS 不一样。JS 引擎对脚本静态分析的时候，遇到模块加载命令import，就会生成一个只读引用。等到脚本真正执行时，再根据这个只读引用，到被加载的那个模块里面去取值。换句话说，ES6 的import有点像 Unix 系统的“符号连接”，原始值变了，import加载的值也会跟着变。因此，ES6 模块是动态引用，并且不会缓存值，模块里面的变量绑定其所在的模块。</p> <p>还是举上面的例子。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    // lib.js
+
+    export let counter = 3;
+    export function incCounter() {
+      counter++;
+    }
+
+    // main.js
+    import { counter, incCounter } from './lib';
+    console.log(counter); // 3
+    incCounter();
+    console.log(counter); // 4
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p>上面代码说明，ES6 模块输入的变量counter是活的，完全反应其所在模块lib.js内部的变化。</p> <p>再举一个出现在export一节中的例子。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    // m1.js
+    export var foo = 'bar';
+    setTimeout(() =&gt; foo = 'baz', 500);
+
+    // m2.js
+    import {foo} from './m1.js';
+    console.log(foo);
+    setTimeout(() =&gt; console.log(foo), 500);
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>上面代码中，m1.js的变量foo，在刚加载时等于bar，过了 500 毫秒，又变为等于baz。</p> <p>让我们看看，m2.js能否正确读取这个变化。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    $ babel-node m2.js
+
+    bar
+    baz
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br></div></div><p>上面代码表明，ES6 模块不会缓存运行结果，而是动态地去被加载的模块取值，并且变量总是绑定其所在的模块。</p> <p>由于 ES6 输入的模块变量，只是一个“符号连接”，所以这个变量是只读的，对它进行重新赋值会报错。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    // lib.js
+    export let obj = {};
+
+    // main.js
+    import { obj } from './lib';
+    obj.prop = 123; // OK
+    obj = {}; // TypeError
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br></div></div><p>上面代码中，main.js从lib.js输入变量obj，可以对obj添加属性，但是重新赋值就会报错。因为变量obj指向的地址是只读的，不能重新赋值，这就好比main.js创造了一个名为obj的const变量。</p> <h3 id="第二个差异："><a href="#第二个差异：" aria-hidden="true" class="header-anchor">#</a> 第二个差异：</h3> <p>因为 CommonJS 加载的是一个对象（即module.exports属性），该对象只有在脚本运行完才会生成。而 ES6 模块不是对象，它的对外接口只是一种静态定义，在代码静态解析阶段就会生成。</p> <p>Es6模块的设计思想是尽量放入静态化，使得在编译时就能确定依赖关系，而CommonJS就只能在运行时确定这些输入和输出的变量。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    // CommonJS模块
+    let { stat, exists, readFile } = require('fs');
+
+    // 等同于
+    let _fs = require('fs');
+    let stat = _fs.stat;
+    let exists = _fs.exists;
+    let readfile = _fs.readfile;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br></div></div><p>上面代码的实质是整体加载fs模块（即加载fs的所有方法），生成一个对象（_fs），然后再从这个对象上面读取 3 个方法。这种加载称为“运行时加载”，因为只有运行时才能得到这个对象，导致完全没办法在编译时做“静态优化”。</p> <p>ES6 通过export命令显式指定输出的代码，再通过import命令输入。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    // ES6模块
+    import { stat, exists, readFile } from 'fs';
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>上面代码的实质是从fs模块加载 3 个方法，其他方法不加载。这种加载称为“编译时加载”或者静态加载，即 ES6 可以在编译时就完成模块加载，效率要比 CommonJS 模块的加载方式高。</p> <p>在es6中，export语句输出的接口，与其对应的值是动态绑定关系，即通过该接口，可以取到模块内部实时的值。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    export var foo = 'bar';
+    setTimeout(() =&gt; foo = 'baz', 500);
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>上面代码输出变量foo，值为bar，500 毫秒之后变成baz。</p> <p>这一点与 CommonJS 规范完全不同。CommonJS 模块输出的是值的缓存，不存在动态更新。</p> <p>export命令可以出现在模块的任何位置，只要处于模块顶层就可以。如果处于块级作用域内，就会报错，import命令也是如此。这是因为处于条件代码块之中，就没法做静态优化了，违背了 ES6 模块的设计初衷。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    function foo() {
+      export default 'bar' // SyntaxError
+    }
+
+    foo()
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br></div></div><p>上面代码中，export语句放在函数之中，结果报错。</p> <p>注意，import命令具有提升效果，会提升到整个模块的头部，首先执行。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    foo();
+
+    import { foo } from 'my_module';
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>上面的代码不会报错，因为import的执行早于foo的调用。这种行为的本质是，import命令是编译阶段执行的，在代码运行之前。</p> <p>由于import是静态执行，所以不能使用表达式和变量，这些只有在运行时才能得到结果的语法结构。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    // 报错
+    import { 'f' + 'oo' } from 'my_module';
+
+    // 报错
+    let module = 'my_module';
+    import { foo } from module;
+
+    // 报错
+    if (x === 1) {
+      import { foo } from 'module1';
+    } else {
+      import { foo } from 'module2';
+    }
+
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br></div></div><p>上面三种写法都会报错，因为它们用到了表达式、变量和if结构。在静态分析阶段，这些语法都是没法得到值的。</p> <p>这样的设计，固然有利于编译器提高效率，但也导致无法在运行时加载模块。在语法上，条件加载就不可能实现。如果import命令要取代 Node 的require方法，这就形成了一个障碍。因为require是运行时加载模块，import命令无法取代require的动态加载功能。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    const path = './' + fileName;
+    const myModual = require(path);
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>上面的语句就是动态加载，require到底加载哪一个模块，只有运行时才知道。import命令做不到这一点。</p> <p>因此，有一个提案，建议引入import()函数，完成动态加载。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>import(specifier)
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br></div></div><p>上面代码中，import函数的参数specifier，指定所要加载的模块的位置。import命令能够接受什么参数，import()函数就能接受什么参数，两者区别主要是后者为动态加载。</p> <p>import()返回一个 Promise 对象。下面是一个例子。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    const main = document.querySelector('main');
+
+    import(`./section-modules/${someVariable}.js`)
+      .then(module =&gt; {
+        module.loadPageInto(main);
+      })
+      .catch(err =&gt; {
+        main.textContent = err.message;
+      });
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br></div></div><p>import()函数可以用在任何地方，不仅仅是模块，非模块的脚本也可以使用。它是运行时执行，也就是说，什么时候运行到这一句，就会加载指定的模块。另外，import()函数与所加载的模块没有静态连接关系，这点也是与import语句不相同。import()类似于 Node 的require方法，区别主要是前者是异步加载，后者是同步加载。</p> <p>目前阶段，通过 Babel 转码，CommonJS 模块的require命令和 ES6 模块的import命令，可以写在同一个模块里面，但是最好不要这样做。因为import在静态解析阶段执行，所以它是一个模块之中最早执行的。下面的代码可能不会得到预期结果。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    require('core-js/modules/es6.symbol');
+    require('core-js/modules/es6.promise');
+    import React from 'React';
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><hr> <h3 id="注："><a href="#注：" aria-hidden="true" class="header-anchor">#</a> 注：</h3> <p>import命令输入的变量都是只读的，因为它的本质是输入接口。也就是说，不允许在加载模块的脚本里面，改写接口。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    import {a} from './xxx.js'
+
+    a = {}; // Syntax Error : 'a' is read-only;
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>上面代码中，脚本加载了变量a，对其重新赋值就会报错，因为a是一个只读的接口。但是，如果a是一个对象，改写a的属性是允许的。</p> <div class="language- line-numbers-mode"><pre class="language-text"><code>    import {a} from './xxx.js'
+
+    a.foo = 'hello'; // 合法操作
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br></div></div><p>上面代码中，a的属性可以成功改写，并且其他模块也可以读到改写后的值。<font color="red">不过，这种写法很难查错，建议凡是输入的变量，都当作完全只读，轻易不要改变它的属性。</font></p> <div><div id="vcomments"></div></div></div> <div class="page-edit"><!----> <!----></div> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/Technology/React/2018.6.10.html" class="prev">
+          react-router的3种路由按需加载介绍
+        </a></span> <span class="next"><a href="/Technology/Js/2017.10.08.html">
+          js当中require.ensure()和import()的使用介绍及对比
+        </a>
+        →
+      </span></p></div> </div> <!----></div></div>
+    <script src="/assets/js/app.9a76328c.js" defer></script><script src="/assets/js/156.671756b8.js" defer></script><script src="/assets/js/3.918aa0d3.js" defer></script>
+  </body>
+</html>
